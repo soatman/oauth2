@@ -112,6 +112,8 @@ type Config struct {
 // granted consent and the code can only be exchanged for an
 // access token. If set to "force" the user will always be prompted,
 // and the code can be exchanged for a refresh token.
+// [Shane Oatman - Edit - 1/12/2015]
+// Changed "approval_prompt" to "prompt" to comply with Open ID Connect
 func (c *Config) AuthCodeURL(state, accessType, prompt string) (authURL string) {
 	u := *c.authURL
 	v := url.Values{
@@ -121,7 +123,7 @@ func (c *Config) AuthCodeURL(state, accessType, prompt string) (authURL string) 
 		"scope":           condVal(strings.Join(c.opts.Scopes, " ")),
 		"state":           condVal(state),
 		"access_type":     condVal(accessType),
-		"approval_prompt": condVal(prompt),
+		"prompt": 		   condVal(prompt),
 	}
 	q := v.Encode()
 	if u.RawQuery == "" {
@@ -131,6 +133,7 @@ func (c *Config) AuthCodeURL(state, accessType, prompt string) (authURL string) 
 	}
 	return u.String()
 }
+
 
 // NewTransport creates a new authorizable transport. It doesn't
 // initialize the new transport with a token, so after creation,
